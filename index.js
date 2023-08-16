@@ -1,63 +1,84 @@
 window.onload = () => {
-  document.querySelector(".arrow-right").addEventListener("click", clickRight);
-  document.querySelector(".arrow-left").addEventListener("click", clickLeft);
-  document
-    .querySelector(".send-button")
-    .addEventListener("click", showNotification);
-  document.querySelectorAll(".project").forEach(element => {
-    element.addEventListener("click", e => openModal(e));
+  // Selección de elementos del DOM
+  const arrowRight = document.querySelector(".arrow-right");
+  const arrowLeft = document.querySelector(".arrow-left");
+  const sendButton = document.querySelector(".form__send-button");
+  const projects = document.querySelectorAll(".carousel__img");
+  // Event Listeners para diferentes acciones
+  arrowRight.addEventListener("click", clickRight); // Avanzar en el carrusel
+  arrowLeft.addEventListener("click", clickLeft); // Retroceder en el carrusel
+  sendButton.addEventListener("click", showNotification); // Mostrar notificación
+  projects.forEach(project => {
+    project.addEventListener("click", openModal); // Abrir modal de proyecto
   });
-  document.body.addEventListener("click", e => closeModal(e));
 };
 
-/** Esta funcion se llama cuando la persona hace click en la fecha derecha del carousel para navegar a la derecha */
+// Constantes para valores numéricos clave
+const PROJECT_WIDTH = 270; // Ancho de cada proyecto en el carrusel
+const MODAL_DISPLAY_DURATION = 3000; // Duración de visualización de notificación
+const projectContainer = document.querySelector(".project-container");
+const projects = document.querySelectorAll(".project");
+let lastProjectIndex = 2;
+let firstProjectIndex = 0;
+
+// Función para avanzar en el carrusel
 function clickRight() {
-  const currentLeft = parseInt(
-    getComputedStyle(document.querySelector(".project-container")).left,
-    10
-  );
-  if (currentLeft < -270) { //si el valor de izquierda es menor a -270, para de mover el contenido
+  // debugger;
+  const currentLeft = parseInt(getComputedStyle(projectContainer).left, 10);
+  if (currentLeft < -PROJECT_WIDTH) {
     return;
   }
-  let newValue = currentLeft - 270; //270 toma en cuenta el tamaño de la imagen mas sus margines
-  document.querySelector(".project-container").style.left = `${newValue}px`;
+  let newValue = currentLeft - PROJECT_WIDTH;
+  projectContainer.style.left = `${newValue}px`;
+  if(lastProjectIndex < projects.length){
+    ++lastProjectIndex;
+    projects[lastProjectIndex].setAttribute("aria-hidden", "false");
+    projects[firstProjectIndex].setAttribute("aria-hidden", "true");
+    ++firstProjectIndex;
+  }
+
 }
 
-/** Esta funcion se llama cuando la persona hace click en la fecha izquierda del carousel para navegar a la izquierda */
+// Función para retroceder en el carrusel
 function clickLeft() {
-  const currentLeft = parseInt(
-    getComputedStyle(document.querySelector(".project-container")).left,
-    10
-  );
-  if (currentLeft === 0) { //si el valor de izquiera es 0, retornar para no seguir movierno el contenido
+  // debugger;
+  const currentLeft = parseInt(getComputedStyle(projectContainer).left, 10);
+  if (currentLeft === 0) {
     return;
   }
-  let newValue = currentLeft + 270;
-  document.querySelector(".project-container").style.left = `${newValue}px`;
+  let newValue = currentLeft + PROJECT_WIDTH;
+  projectContainer.style.left = `${newValue}px`;
+  if(firstProjectIndex >= 0){
+    --firstProjectIndex;
+    projects[firstProjectIndex].setAttribute("aria-hidden", "false");
+    projects[lastProjectIndex].setAttribute("aria-hidden", "true");
+    --lastProjectIndex;
+  }
 }
 
-/** Esta funcion se llama cuando la persona hace click en el boton de enviar del formulario de contacto */
+// Función para mostrar notificación y ocultarla después de un tiempo
 function showNotification() {
-  document.querySelector(".notification").style.display = "flex";
-  setTimeout(function() {
-    document.querySelector(".notification").style.display = "none";
-  }, 3000);
+  const notification = document.querySelector(".notification");
+  notification.style.display = "flex";
+  setTimeout(function () {
+    notification.style.display = "none";
+  }, MODAL_DISPLAY_DURATION);
 }
 
-/** Esta funcion se llama cuando la persona hace click en cualquier porjecto del carousel */
-function openModal(e) {
-  document.querySelector(".modal-container").style.display = "flex";
+// Función para abrir el modal de proyecto
+function openModal() {
+  const modalContainer = document.querySelector(".modal-container");
+  modalContainer.style.display = "flex";
+  document.body.addEventListener("click", closeModal);
 }
 
-/** Esta funcion se llama para cerrar el modal */
+// Función para cerrar el modal si se hace clic fuera de él
 function closeModal(e) {
-  // si el click occurio dentro del las imagenes del carousel o dentro del modal, no se cierra el modal
-  if (
-    e.target.className.includes("project") ||
-    e.target.className === "modal"
-  ) {
+  const targetClass = e.target.className;
+  const modalContainer = document.querySelector(".modal-container");
+  if (targetClass.includes("carousel__img") || targetClass === "modal") {
     return;
   } else {
-    document.querySelector(".modal-container").style.display = "none";
+    modalContainer.style.display = "none";
   }
 }
