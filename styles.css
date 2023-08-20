@@ -77,7 +77,8 @@ body {
 .project:focus-within,
 .arrow:focus-within,
 .form__input:focus-within,
-.form__send-button:focus-within {
+.form__send-button:focus-within,
+.modal__close-button:focus-within{
   outline: .3rem solid var(--verde);
 }
 
@@ -295,7 +296,8 @@ body {
   width: 100%;
 }
 
-.form__send-button {
+.form__send-button, 
+.modal__close-button {
   background-color: var(--verde-oscuro);
   border-radius: .5rem;
   color: white;
@@ -305,10 +307,16 @@ body {
   display: flex;
   height: 50px;
   justify-content: center;
+  align-items: center;
   margin-bottom: 48px;
   width: 150px;
   margin-left: auto;
   cursor: pointer;
+}
+
+.modal__close-button{
+  margin: 2rem auto;
+
 }
 
 .notification {
@@ -329,7 +337,7 @@ body {
 
 .modal-container {
   align-items: center;
-  background-color: rgba(000, 000, 000, 0.2);
+  background-color: rgba(0, 0, 0, 0.3);
   display: none;
   height: 100vh;
   justify-content: center;
@@ -349,6 +357,11 @@ body {
   position: fixed;
   top: 15%;
   width: 700px;
+}
+
+.modal__title{
+  color: white;
+  font-size: 3.6rem;
 }
 
 .modal-project-image {

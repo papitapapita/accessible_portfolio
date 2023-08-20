@@ -10,8 +10,9 @@ window.onload = () => {
   sendButton.addEventListener("click", showNotification); // Mostrar notificación
   projects.forEach(project => {
     project.addEventListener("click", openModal); // Abrir modal de proyecto
-    project.addEventListener("keyup", function(event){ //Abrir modal con enter
+    project.addEventListener("keyup", function(){ //Abrir modal con enter
       if (event.keyCode === 13){
+        console.log("Holi");
         openModal();
       }
     })
@@ -73,6 +74,7 @@ function showNotification() {
   }, MODAL_DISPLAY_DURATION);
 }
 
+
 // Función para abrir el modal de proyecto
 function openModal() {
   const modalContainer = document.querySelector(".modal-container");
@@ -83,15 +85,19 @@ function openModal() {
       closeModal(event);
     }
   })
+  document.getElementById("modal__title").focus();
 }
 
 // Función para cerrar el modal si se hace clic fuera de él
 function closeModal(e) {
-  const targetClass = e.target.className;
   const modalContainer = document.querySelector(".modal-container");
-  if (targetClass.includes("carousel__img") || targetClass === "modal") {
+  const targetClass = e.target.className;
+  if (targetClass.includes("carousel__img") || targetClass === "modal" || targetClass.includes("modal__title")) {
     return;
-  } else {
+  } else if(targetClass === "model__close-button"){
+    modalContainer.style.display = "none";
+  }
+  else {
     modalContainer.style.display = "none";
   }
 }
