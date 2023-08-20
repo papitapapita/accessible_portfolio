@@ -7,12 +7,11 @@ window.onload = () => {
   // Event Listeners para diferentes acciones
   arrowRight.addEventListener("click", clickRight); // Avanzar en el carrusel
   arrowLeft.addEventListener("click", clickLeft); // Retroceder en el carrusel
-  sendButton.addEventListener("click", showNotification); // Mostrar notificación
+  sendButton.addEventListener("click", e => validate(e)); // Mostrar notificación
   projects.forEach(project => {
     project.addEventListener("click", openModal); // Abrir modal de proyecto
     project.addEventListener("keyup", function(){ //Abrir modal con enter
       if (event.keyCode === 13){
-        console.log("Holi");
         openModal();
       }
     })
@@ -26,6 +25,18 @@ const projectContainer = document.querySelector(".project-container");
 const projects = document.querySelectorAll(".project");
 let lastProjectIndex = 2;
 let firstProjectIndex = 0;
+
+
+// Función para validar el formulario
+function validate(event){
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  event.preventDefault();
+  if(name != "" && email != "" && email.match(validRegex)){
+    showNotification();
+  }
+}
 
 // Función para avanzar en el carrusel
 function clickRight() {
@@ -66,7 +77,7 @@ function clickLeft() {
 }
 
 // Función para mostrar notificación y ocultarla después de un tiempo
-function showNotification() {
+function showNotification(event) {
   const notification = document.querySelector(".notification");
   notification.style.display = "flex";
   setTimeout(function () {
