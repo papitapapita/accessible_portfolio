@@ -79,6 +79,7 @@ function clickLeft() {
 // Función para mostrar notificación y ocultarla después de un tiempo
 function showNotification(event) {
   const notification = document.querySelector(".notification");
+  notification.innerText="El formulario fue enviado sin errores";
   notification.style.display = "flex";
   setTimeout(function () {
     notification.style.display = "none";
