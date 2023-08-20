@@ -53,6 +53,34 @@ body {
   color: var(--blanco);
 }
 
+.skip-link{
+  height: 0;
+  color: transparent;
+  position: fixed;
+  left: 20px;
+}
+
+.skip-link:focus,
+.skip.link:active{
+  height: auto;
+  margin: 2rem auto;
+  border-radius: .5rem;
+  padding: 2rem 4rem;
+  font-family: var(--secondary-font);
+  color: var(--blanco);
+  background-color: var(--verde-oscuro);
+}
+
+.skip-link:focus-within,
+.navbar__link:focus-within,
+.social-media__link:focus-within,
+.project:focus-within,
+.arrow:focus-within,
+.form__input:focus-within,
+.form__send-button:focus-within {
+  outline: .3rem solid var(--verde);
+}
+
 .header{
   display: flex;
   flex-direction: column;
@@ -184,7 +212,8 @@ body {
 }
 
 .window {
-  width: 80.5rem;
+  width: 81.5rem;
+  padding: .8rem;
   overflow: hidden;
 }
 

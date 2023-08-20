@@ -3,13 +3,18 @@ window.onload = () => {
   const arrowRight = document.querySelector(".arrow-right");
   const arrowLeft = document.querySelector(".arrow-left");
   const sendButton = document.querySelector(".form__send-button");
-  const projects = document.querySelectorAll(".carousel__img");
+  const projects = document.querySelectorAll(".project");
   // Event Listeners para diferentes acciones
   arrowRight.addEventListener("click", clickRight); // Avanzar en el carrusel
   arrowLeft.addEventListener("click", clickLeft); // Retroceder en el carrusel
   sendButton.addEventListener("click", showNotification); // Mostrar notificación
   projects.forEach(project => {
     project.addEventListener("click", openModal); // Abrir modal de proyecto
+    project.addEventListener("keyup", function(event){ //Abrir modal con enter
+      if (event.keyCode === 13){
+        openModal();
+      }
+    })
   });
 };
 
@@ -23,17 +28,19 @@ let firstProjectIndex = 0;
 
 // Función para avanzar en el carrusel
 function clickRight() {
-  // debugger;
   const currentLeft = parseInt(getComputedStyle(projectContainer).left, 10);
   if (currentLeft < -PROJECT_WIDTH) {
     return;
   }
   let newValue = currentLeft - PROJECT_WIDTH;
   projectContainer.style.left = `${newValue}px`;
+
   if(lastProjectIndex < projects.length){
     ++lastProjectIndex;
     projects[lastProjectIndex].setAttribute("aria-hidden", "false");
+    projects[lastProjectIndex].setAttribute("tabindex", "0");
     projects[firstProjectIndex].setAttribute("aria-hidden", "true");
+    projects[firstProjectIndex].setAttribute("tabindex", "-1");
     ++firstProjectIndex;
   }
 
@@ -41,7 +48,6 @@ function clickRight() {
 
 // Función para retroceder en el carrusel
 function clickLeft() {
-  // debugger;
   const currentLeft = parseInt(getComputedStyle(projectContainer).left, 10);
   if (currentLeft === 0) {
     return;
@@ -51,7 +57,9 @@ function clickLeft() {
   if(firstProjectIndex >= 0){
     --firstProjectIndex;
     projects[firstProjectIndex].setAttribute("aria-hidden", "false");
+    projects[firstProjectIndex].setAttribute("tabindex", "0");
     projects[lastProjectIndex].setAttribute("aria-hidden", "true");
+    projects[lastProjectIndex].setAttribute("tabindex", "-1");
     --lastProjectIndex;
   }
 }
@@ -70,6 +78,11 @@ function openModal() {
   const modalContainer = document.querySelector(".modal-container");
   modalContainer.style.display = "flex";
   document.body.addEventListener("click", closeModal);
+  document.body.addEventListener("keyup", function(event){
+    if(event.keyCode === 27){
+      closeModal(event);
+    }
+  })
 }
 
 // Función para cerrar el modal si se hace clic fuera de él

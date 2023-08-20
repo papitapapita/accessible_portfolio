@@ -12,6 +12,7 @@
   </head>
 
   <body>
+    <a href="#main" class="skip-link">Ir al contenido principal</a>
     <header class="header">
       <img src="images/jonathan.jpg" alt="Jonathan Olivos, Fotografía de perfil" class="header__img"/>
       <h1 class="header__title">Jonathan Olivos</h1>
@@ -30,7 +31,7 @@
         </ul>
       </nav>
     </header>
-    <main class="main">
+    <main class="main" id="main">
       <section class="intro" id="about">
         <h2 class="intro__title">Acerca de mí</h2>
         <p class="intro__description">
@@ -74,12 +75,12 @@
                 </button>
               </li>
               <li aria-hidden="true" class="project project4">
-                <button aria-label="Proyecto 4" class="carousel__button">
+                <button tabindex="-1" aria-label="Proyecto 4" class="carousel__button">
                   <img class="carousel__img" src="./images/project4.png" alt="Proyecto mío">
                 </button>
               </li>
               <li aria-hidden="true" class="project project5">
-                <button aria-label="Proyecto 5" class="carousel__button">
+                <button tabindex="-1" aria-label="Proyecto 5" class="carousel__button">
                   <img class="carousel__img" src="./images/project5.png" alt="Proyecto mío">
                 </button>
               </li>
